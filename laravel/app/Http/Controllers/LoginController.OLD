@@ -1,0 +1,50 @@
+<?php
+
+namespace Uawa\Http\Controllers;
+
+use Uawa\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+
+class LoginController extends Controller {
+
+use AuthenticatesUsers;
+
+public function username()
+{
+    return 'email';
+}
+
+
+public function __construct() {
+
+}
+
+public function login(Request $request) {
+    // Validate the form data
+    $this->validate($request, [
+        'password' => 'required|min:2'
+    ]);
+    // Attempt to log the user in
+    if (Auth::guard()->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+        // if successful, then redirect to their intended location
+        return redirect()->intended(url('contacto'));
+    }
+    // if unsuccessful, then redirect back to the login with the form data
+    
+
+    return 'algo salio mal';
+    //return redirect()->back()->withInput($request->only('email', 'remember'));
+}
+
+
+public function logout () {
+    //logout user
+    auth()->logout();
+    // redirect to homepage
+    return redirect('/');
+}
+
+}

@@ -1,0 +1,110 @@
+<?php
+
+namespace Uawa\Http\Controllers;
+
+
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+
+use Illuminate\Http\Request;
+use Uawa\Http\Requests;
+use Uawa\User;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input; //para subir la imagen
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
+
+use Uawa\Http\Requests\UsuarioFormRequest;
+use DB;
+
+
+
+class UsuarioController extends Controller
+{
+    
+    public function index(Request $request)
+    {
+    	if($request)
+    	{
+    		$consulta=trim($request->get('buscar'));
+
+    		$usuarios=DB::table('usuarios')
+            ->select('*')
+            ->where('activo','=', "1")
+    		->where('nombres','LIKE','%'.$consulta.'%')
+            ->orderBy('id','desc')
+    		->paginate(10);
+
+
+    		return view('admin.usuarios.index', ["usuarios"=>$usuarios,"textoBusqueda"=>$consulta]);
+    	}
+    	
+    }
+    public function create()
+    {
+    	return view('admin.usuarios.create');
+    }
+    public function store(UsuarioFormRequest $request)
+    {
+        //CREA NUEVO USUARIO
+    	$usuario=new User;
+        $usuario->tipoUsuario=$request->get('tipoUsuario');
+        $usuario->nombres=$request->get('nombres');
+        $usuario->apellidos=$request->get('apellidos');
+        $usuario->email=$request->get('email');
+    	$usuario->password=Hash::make($request->get('clave'));
+
+        $usuario->usuario=uniqid();
+        $usuario->codigoDistribuidor=$request->get('codigoDistribuidor');
+        $usuario->activo=1;
+    	$usuario->save();
+    	return Redirect::to('admin/usuarios');
+    }
+
+    public function show($id)
+    {
+    	return view('admin.articulos.show',["articulo"=>Articulo::findOrFail($id)]);
+    }
+
+    public function edit($id)
+    {
+        $usuario=Usuario::findOrFail($id);
+    	return view('admin.usuarios.edit',["usuario"=>$usuario]);
+    }
+
+    public function update(UsuarioFormRequest $request, $id)
+    {
+        $usuario=Usuario::findOrFail($id);
+        $usuario->tipoUsuario=$request->get('tipoUsuario');
+        $usuario->nombres=$request->get('nombres');
+        $usuario->apellidos=$request->get('apellidos');
+        $usuario->email=$request->get('email');
+        $usuario->clave=$request->get('clave');
+
+        $usuario->usuario=$usuario->usuario;
+        $usuario->codigoDistribuidor=$usuario->codigoDistribuidor;
+        $usuario->activo=1;
+        $usuario->update();
+        return Redirect::to('admin/usuarios');
+    }
+
+    public function destroy($id)
+    {
+		$usuario=Usuario::findOrFail($id);
+    	$usuario->activo=0;
+    	$usuario->update();
+    	return Redirect::to('admin/usuarios');
+    }
+
+
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'nombres' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'clave' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+    }
+}

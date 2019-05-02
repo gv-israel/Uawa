@@ -1,0 +1,45 @@
+<?php
+
+namespace Uawa;
+
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class Usuario extends Authenticatable
+{
+    use Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+
+    public $timestamps=false;
+
+    protected $guard = 'users';
+    protected $table = 'usuarios';
+    protected $primaryKey = 'id';
+
+
+    protected $fillable = [
+        'tipoUsuario',
+        'activo',
+        'usuario',//UNIQID
+        'nombres',
+        'apellidos',
+        'email',
+
+
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'clave', 'remember_token',
+    ];
+}

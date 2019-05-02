@@ -1,0 +1,62 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class Usuarios extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+
+
+        Schema::create('usuarios', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('tipoUsuario');
+            $table->integer('activo');
+            $table->string('usuario')->unique();
+           
+            $table->string('nombres');
+            $table->string('apellidos');
+            $table->string('email')->unique();
+            $table->string('clave');
+
+            $table->string('idFacebook')->nullable();
+            $table->string('codigoDistribuidor')->nullable();
+            $table->timestamp('emailVerificadoEl')->nullable();
+            $table->timestamp('fechaRegistro')->nullable();
+            $table->rememberToken();
+        });
+        Schema::create('usuarios_datos', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('deUsuario');
+            $table->string('cedula');
+            $table->string('nombres');
+            $table->string('apellidos');
+            $table->string('provincia');
+            $table->string('poblacion');
+            $table->string('codigoPostal');
+            $table->string('direccion');
+            $table->string('direccion2')->nullable();
+        });
+
+
+        
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('usuarios');
+        Schema::drop('usuarios_datos');
+    }
+}

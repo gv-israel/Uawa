@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+<!-- CSRF Token -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<title>
+  @if(View::hasSection('titulo'))
+    @yield('titulo') - {{ config('app.name', 'Laravel') }}
+  @else
+    {{ config('app.name', 'Laravel') }}
+  @endif
+</title>
+<link rel="shortcut icon" href="{{asset('images/favicon.png')}}">
+<link rel="stylesheet" href="{{asset('css/settings.css')}}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{asset('css/swatches-and-photos.css')}}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}" type="text/css" media="all"/>
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Montserrat%3A400%2C700&#038;" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{asset('css/elegant-icon.css')}}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{asset('css/shop.css')}}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{asset('css/layout.css')}}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{asset('css/magnific-popup.css')}}" type="text/css" media="all"/><!-- ARTICULO---> 
+</head>
+
+<body @if(@isset($bodyClass)) class="{{$bodyClass}}" @endif>
+@include('layout.navegacion-movil')
+<div id="wrapper" class="wide-wrap">
+  <div class="offcanvas-overlay"></div>
+  @include('layout.header')    
+  <div class="heading-container">
+    <div class="container heading-standar">
+      <h2 class="text-uppercase">@yield('titulo')</h2>
+    </div>
+  </div>
+  @yield('contenido')
+  @include('layout.footer')
+
+</div>
+@include('layout.modal-login')
+@include('layout.modal-registro')
+@include('layout.modal-recuperar-clave')  
+
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>  
+<script type="text/javascript" src="{{asset('js/jquery-migrate.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.themepunch.tools.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.themepunch.revolution.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/easing.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/imagesloaded.pkgd.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/superfish-1.7.4.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.appear.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/custom.js')}}"></script><!-- FAQ--->  
+<script type="text/javascript" src="{{asset('js/script.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/swatches-and-photos.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.prettyPhoto.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.prettyPhoto.init.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.selectBox.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.parallax.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.touchSwipe.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.transit.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/jquery.carouFredSel.min.js')}}"></script>  
+<script type="text/javascript" src="{{asset('js/isotope.pkgd.min.js')}}"></script>
+<script type='text/javascript' src="{{asset('js/jquery.magnific-popup.min.js')}}"></script><!-- ARTICULO---> 
+@yield('jquery')
+</body>
+</html>
